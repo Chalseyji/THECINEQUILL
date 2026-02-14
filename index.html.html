@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shaunak Chalsey - Videographer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:wght@300;400;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #151515;
+            --accent-gold: #d4af37;
+            --accent-orange: #ff6b35;
+            --text-primary: #ffffff;
+            --text-secondary: #b8b8b8;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.3;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: linear-gradient(180deg, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0) 100%);
+            backdrop-filter: blur(10px);
+            animation: slideDown 1s ease;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
+        }
+
+        .logo {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 2rem;
+            letter-spacing: 3px;
+            color: var(--accent-gold);
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent-gold);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+            opacity: 0.8;
+        }
+
+        .hero-bg::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 80%;
+            background: radial-gradient(circle, var(--accent-orange) 0%, transparent 70%);
+            opacity: 0.1;
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.1; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.15; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 0 2rem;
+        }
+
+        .hero-title {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(3rem, 10vw, 8rem);
+            letter-spacing: 8px;
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeInUp 1.2s ease forwards 0.3s;
+            text-shadow: 0 0 40px rgba(212, 175, 55, 0.5);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            color: var(--accent-gold);
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeInUp 1.2s ease forwards 0.6s;
+            font-weight: 300;
+        }
+
+        .hero-tagline {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            opacity: 0;
+            animation: fadeInUp 1.2s ease forwards 0.9s;
+            line-height: 1.8;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1.2rem 3rem;
+            background: transparent;
+            border: 2px solid var(--accent-gold);
+            color: var(--accent-gold);
+            text-decoration: none;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+            transition: color 0.3s;
+            opacity: 0;
+            animation: fadeInUp 1.2s ease forwards 1.2s;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--accent-gold);
+            transition: left 0.4s;
+            z-index: -1;
+        }
+
+        .cta-button:hover {
+            color: var(--bg-primary);
+        }
+
+        .cta-button:hover::before {
+            left: 0;
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            animation: fadeInUp 1.2s ease forwards 1.5s;
+        }
+
+        .scroll-indicator::before {
+            content: '';
+            display: block;
+            width: 1px;
+            height: 60px;
+            background: linear-gradient(to bottom, transparent, var(--accent-gold));
+            margin: 0 auto 10px;
+            animation: scrollLine 2s ease-in-out infinite;
+        }
+
+        @keyframes scrollLine {
+            0%, 100% { height: 60px; }
+            50% { height: 30px; }
+        }
+
+        .scroll-indicator span {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* Section Styles */
+        section {
+            padding: 8rem 5%;
+            position: relative;
+        }
+
+        .section-title {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(3rem, 6vw, 5rem);
+            letter-spacing: 4px;
+            margin-bottom: 1rem;
+            color: var(--accent-gold);
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-orange), transparent);
+        }
+
+        /* Showreel Section */
+        .showreel {
+            background: var(--bg-secondary);
+            position: relative;
+        }
+
+        .showreel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent 0%, rgba(212, 175, 55, 0.03) 50%, transparent 100%);
+        }
+
+        .video-container {
+            max-width: 1200px;
+            margin: 3rem auto 0;
+            position: relative;
+            aspect-ratio: 16/9;
+            border: 3px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+
+        .video-container iframe {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Clients & Brands */
+        .clients {
+            background: var(--bg-primary);
+        }
+
+        .clients-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 4rem auto;
+            align-items: center;
+        }
+
+        .client-logo {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 2rem;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 120px;
+            transition: all 0.3s;
+            filter: grayscale(100%) brightness(0.7);
+        }
+
+        .client-logo:hover {
+            background: rgba(212, 175, 55, 0.05);
+            border-color: var(--accent-gold);
+            transform: translateY(-5px);
+            filter: grayscale(0%) brightness(1);
+        }
+
+        .client-logo img {
+            max-width: 100%;
+            max-height: 80px;
+            object-fit: contain;
+        }
+
+        .client-text {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            color: var(--text-secondary);
+        }
+
+        /* About Section */
+        .about {
+            background: var(--bg-secondary);
+        }
+
+        .about-content {
+            max-width: 1200px;
+            margin: 3rem auto 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        .about-image {
+            position: relative;
+            aspect-ratio: 3/4;
+            overflow: hidden;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(30%) contrast(1.1);
+            transition: transform 0.6s, filter 0.6s;
+        }
+
+        .about-image:hover img {
+            transform: scale(1.05);
+            filter: grayscale(0%) contrast(1);
+        }
+
+        .about-text p {
+            font-size: 1.2rem;
+            line-height: 2;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .skill-item {
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            text-align: center;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+
+        .skill-item:hover {
+            background: rgba(212, 175, 55, 0.1);
+            border-color: var(--accent-gold);
+            transform: translateY(-5px);
+        }
+
+        /* Projects Gallery */
+        .projects {
+            background: var(--bg-primary);
+        }
+
+        /* Achievement Badge */
+        .achievement-badge {
+            max-width: 800px;
+            margin: 0 auto 4rem;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(255, 107, 53, 0.1));
+            border: 2px solid var(--accent-gold);
+            text-align: center;
+        }
+
+        .achievement-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .achievement-title {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 2rem;
+            letter-spacing: 2px;
+            color: var(--accent-gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .achievement-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .achievement-detail {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            letter-spacing: 1px;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .project-card {
+            position: relative;
+            aspect-ratio: 16/10;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .project-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s, filter 0.6s;
+            filter: grayscale(50%) brightness(0.7);
+        }
+
+        .project-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(0deg, rgba(10,10,10,0.95) 0%, transparent 50%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 2rem;
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .project-card:hover img {
+            transform: scale(1.1);
+            filter: grayscale(0%) brightness(1);
+        }
+
+        .project-card:hover .project-overlay {
+            opacity: 1;
+        }
+
+        .project-title {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 2rem;
+            letter-spacing: 2px;
+            color: var(--accent-gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .project-description {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            background: var(--bg-secondary);
+        }
+
+        .testimonials-container {
+            max-width: 900px;
+            margin: 3rem auto 0;
+        }
+
+        .testimonial-card {
+            padding: 3rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 3px solid var(--accent-gold);
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: 1rem;
+            left: 1.5rem;
+            font-size: 6rem;
+            color: rgba(212, 175, 55, 0.2);
+            font-family: Georgia, serif;
+            line-height: 1;
+        }
+
+        .testimonial-text {
+            font-size: 1.2rem;
+            line-height: 1.9;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .testimonial-author {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.95rem;
+            color: var(--accent-gold);
+            letter-spacing: 1px;
+        }
+
+        .testimonial-role {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 0.3rem;
+        }
+
+        /* Contact Section */
+        .contact {
+            background: var(--bg-primary);
+            text-align: center;
+        }
+
+        .contact-content {
+            max-width: 600px;
+            margin: 3rem auto 0;
+        }
+
+        .contact-text {
+            font-size: 1.3rem;
+            line-height: 2;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.2rem 2.5rem;
+            background: transparent;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            color: var(--text-primary);
+            text-decoration: none;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+
+        .contact-link:hover {
+            border-color: var(--accent-gold);
+            background: rgba(212, 175, 55, 0.1);
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 5%;
+            background: var(--bg-secondary);
+            text-align: center;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .footer-text {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            letter-spacing: 1px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 1.5rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            section {
+                padding: 5rem 5%;
+            }
+
+            .contact-links {
+                flex-direction: column;
+            }
+
+            .clients-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 2rem;
+            }
+        }
+
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">The Cinequill</div>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#showreel">Showreel</a></li>
+            <li><a href="#clients">Clients</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#testimonials">Testimonials</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">VIDEOGRAPHER</h1>
+            <h2 class="hero-subtitle">Shaunak Chalsey</h2>
+            <p class="hero-tagline">I create stories through frames and feelings. Sometimes in front of the lens, sometimes behind it.</p>
+            <a href="#showreel" class="cta-button">Watch My Work</a>
+        </div>
+        <div class="scroll-indicator">
+            <span>Scroll</span>
+        </div>
+    </section>
+
+    <!-- Showreel Section -->
+    <section id="showreel" class="showreel">
+        <h2 class="section-title">Showreel</h2>
+        <div class="video-container">
+            <iframe 
+                src="https://www.youtube.com/embed/LC77UZvoj2E" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+            </iframe>
+        </div>
+    </section>
+
+    <!-- Clients & Brands -->
+    <section id="clients" class="clients">
+        <h2 class="section-title">Trusted By</h2>
+        <div class="clients-grid">
+            <div class="client-logo">
+                <div class="client-text">AR Marketing</div>
+            </div>
+            <div class="client-logo">
+                <div class="client-text">Growthics</div>
+            </div>
+            <div class="client-logo">
+                <div class="client-text">Fortune Park</div>
+            </div>
+            <div class="client-logo">
+                <div class="client-text">Lakme Salon</div>
+            </div>
+            <div class="client-logo">
+                <div class="client-text">Lyfe Hotels</div>
+            </div>
+            <div class="client-logo">
+                <div class="client-text">Embellish Salon</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <h2 class="section-title">Behind the Lens</h2>
+        <div class="about-content">
+            <div class="about-image">
+                <img src="Gemini_Generated_Image_7fqthz7fqthz7fqt.png" alt="Shaunak Chalsey">
+            </div>
+            <div class="about-text">
+                <p>I'm a visual storyteller who works across cinematography, editing, and acting. I've shot short films, event reels, and competitive filmmaking projects, including IFP's 50 Hour Challenge.</p>
+                <p>I love building stories with limited resources, fast timelines, and real emotions. When I'm not behind the camera, you'll probably find me performing in front of it.</p>
+                
+                <div class="skills-grid">
+                    <div class="skill-item">Adobe Premiere Pro</div>
+                    <div class="skill-item">After Effects</div>
+                    <div class="skill-item">VN Editing</div>
+                    <div class="skill-item">Cinematography</div>
+                    <div class="skill-item">Broadcasting</div>
+                    <div class="skill-item">Event Management</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Gallery -->
+    <section id="projects" class="projects">
+        <h2 class="section-title">Featured Work</h2>
+        
+        <!-- Achievement Badge -->
+        <div class="achievement-badge">
+            <div class="achievement-icon">🥉</div>
+            <h3 class="achievement-title">Bronze Film of the Year</h3>
+            <p class="achievement-subtitle">IFP Season 13 - Mobile Category</p>
+            <p class="achievement-detail">"Cocaine Chaos" | 50 Hour Filmmaking Challenge</p>
+        </div>
+        
+       <div class="projects-grid">
+
+    <!-- Waiting -->
+    <a href="https://www.youtube.com/watch?v=LC77UZvoj2E&t=3s" target="_blank">
+        <div class="project-card">
+            <img src="Waiting - Short Film  Made During IFP's 50 Hours Filmmaking Challenge  Team Filmineers.jpg" alt="Waiting - IFP Challenge">
+            <div class="project-overlay">
+                <h3 class="project-title">Waiting</h3>
+                <p class="project-description">
+                    IFP 50 Hour Challenge | Cinematographer | Shot entirely on iPhone 15 under extreme time pressure
+                </p>
+            </div>
+        </div>
+    </a>
+
+    <!-- Cocaine Chaos -->
+    <a href="https://www.youtube.com/watch?v=kGDnbrvTLKc" target="_blank">
+        <div class="project-card">
+            <img src="Cocaine Chaos  Bronze Film Of The Year  Mobile Category  50 Hour Filmmaking Challenge.jpg" alt="Cocaine Chaos">
+            <div class="project-overlay">
+                <h3 class="project-title">Cocaine Chaos</h3>
+                <p class="project-description">
+                    🥉 Bronze Film of the Year - Mobile Category | IFP Season 13 | Lead Actor
+                </p>
+            </div>
+        </div>
+    </a>
+
+    <!-- Love Stop -->
+    <a href="https://www.youtube.com/watch?v=JLohfz__v7Y" target="_blank">
+        <div class="project-card">
+            <img src="Love Stop.  Short Film  Utsov Mohanty,Shaunak Chalsey,Ahana Chanda,Satyam Swain,Manan Pandey  KFS.jpg" alt="Love Stop">
+            <div class="project-overlay">
+                <h3 class="project-title">Love Stop.</h3>
+                <p class="project-description">
+                    KFS Production | Male Lead Actor | Narrative short film with full character arc
+                </p>
+            </div>
+        </div>
+    </a>
+
+    <!-- Commercial Food Photography -->
+    <a href="https://www.instagram.com/p/DPIxBKqEsiC/?img_index=1" target="_blank">
+        <div class="project-card">
+            <img src="fortuneparkbhubaneswar ( PHOTOS - 1.jpg" alt="Fortune Park Food">
+            <div class="project-overlay">
+                <h3 class="project-title">Commercial Food Photography</h3>
+                <p class="project-description">
+                    Fortune Park Sishmo | Professional food and hospitality content creation
+                </p>
+            </div>
+        </div>
+    </a>
+
+    <!-- Bridal Portfolio -->
+    <a href="https://www.instagram.com/sc_.clicks/reel/DOEXL-fE2wl/" target="_blank">
+        <div class="project-card">
+            <img src="bridal makeover - EDIT.jpg" alt="Bridal Makeover">
+            <div class="project-overlay">
+                <h3 class="project-title">Bridal Portfolio</h3>
+                <p class="project-description">
+                    Beauty & fashion videography | Capturing elegance and tradition
+                </p>
+            </div>
+        </div>
+    </a>
+
+    <!-- Brand Collaborations -->
+    <a href="https://www.instagram.com/p/DQWVftnip3x/" target="_blank">
+        <div class="project-card">
+            <img src="lyfehotelsandresorts.jpg" alt="Brand Work">
+            <div class="project-overlay">
+                <h3 class="project-title">Brand Collaborations</h3>
+                <p class="project-description">
+                    Lakme Salon, Embellish Salon, Lyfe Hotels | Commercial content for beauty & hospitality brands
+                </p>
+            </div>
+        </div>
+    </a>
+
+</div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="testimonials" class="testimonials">
+        <h2 class="section-title">Client Stories</h2>
+        <div class="testimonials-container">
+            <div class="testimonial-card">
+                <p class="testimonial-text">Working with Shaunak was a game-changer for our brand presence. His ability to capture our message visually and deliver professional commercial content on tight deadlines exceeded our expectations. Highly recommend for any video production needs.</p>
+                <div class="testimonial-author">AR Marketing</div>
+                <div class="testimonial-role">Client | Cuttack, Odisha</div>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">Shaunak's leadership as Cinematography Lead transformed our production quality. He brought technical expertise, creative vision, and an unwavering commitment to storytelling. Every frame he shoots has purpose and emotion.</p>
+                <div class="testimonial-author">KIIT Film Society (KFS)</div>
+                <div class="testimonial-role">Society Leadership Team</div>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">The freelance videos Shaunak delivered were exactly what we needed - creative, engaging, and professionally edited. He understood our brand voice immediately and translated it into compelling visual content.</p>
+                <div class="testimonial-author">Growthics</div>
+                <div class="testimonial-role">Freelance Client | Odisha</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <h2 class="section-title">Let's Create Together</h2>
+        <div class="contact-content">
+            <p class="contact-text">Ready to start your next production? Whether it's a commercial campaign or a personal documentary, let's create something unforgettable together.</p>
+            <div class="contact-links">
+                <a href="mailto:thecinequill@gmail.com" class="contact-link">
+                    <span>📧</span>
+                    <span>Email Me</span>
+                </a>
+                <a href="https://www.linkedin.com/in/shaunakchalsey/" target="_blank" class="contact-link">
+                    <span>💼</span>
+                    <span>LinkedIn</span>
+                </a>
+                <a href="https://www.youtube.com/@Thecinequill" target="_blank" class="contact-link">
+                    <span>▶️</span>
+                    <span>YouTube</span>
+                </a>
+                <a href="https://www.instagram.com/thecinequill/" target="_blank" class="contact-link">
+                    <span>📷</span>
+                    <span>Instagram</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p class="footer-text">© 2025 The Cinequill | Shaunak Chalsey. All rights reserved. | Crafted with passion for visual storytelling.</p>
+    </footer>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // Smooth scroll with offset for fixed nav
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Fade in elements on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all project cards, testimonials, and skills
+        document.querySelectorAll('.project-card, .testimonial-card, .skill-item, .client-logo').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+
+        // Parallax effect for hero
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero-bg'
