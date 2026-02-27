@@ -584,14 +584,16 @@
             margin-top: 0.3rem;
         }
 
-        /* Contact Section */
+        /* =============================================
+           CONTACT SECTION — UPDATED
+        ============================================= */
         .contact {
             background: var(--bg-primary);
             text-align: center;
         }
 
         .contact-content {
-            max-width: 600px;
+            max-width: 700px;
             margin: 3rem auto 0;
         }
 
@@ -605,29 +607,101 @@
         .contact-links {
             display: flex;
             justify-content: center;
-            gap: 2rem;
+            gap: 1.5rem;
             flex-wrap: wrap;
         }
 
         .contact-link {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            padding: 1.2rem 2.5rem;
+            gap: 0.8rem;
+            padding: 1.2rem 2rem;
             background: transparent;
             border: 2px solid rgba(212, 175, 55, 0.3);
             color: var(--text-primary);
             text-decoration: none;
             font-family: 'Space Mono', monospace;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             letter-spacing: 1px;
             transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--accent-gold);
+            transition: left 0.4s;
+            z-index: 0;
+        }
+
+        .contact-link span {
+            position: relative;
+            z-index: 1;
         }
 
         .contact-link:hover {
             border-color: var(--accent-gold);
-            background: rgba(212, 175, 55, 0.1);
+            color: var(--bg-primary);
             transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
+        }
+
+        .contact-link:hover::before {
+            left: 0;
+        }
+
+        /* Special styling for the primary CTA buttons */
+        .contact-link.primary-cta {
+            border-color: var(--accent-gold);
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        /* WhatsApp button — green accent on hover */
+        .contact-link.whatsapp-btn::before {
+            background: #25D366;
+        }
+
+        .contact-link.whatsapp-btn:hover {
+            border-color: #25D366;
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.2);
+        }
+
+        /* Call button — orange accent on hover */
+        .contact-link.call-btn::before {
+            background: var(--accent-orange);
+        }
+
+        .contact-link.call-btn:hover {
+            border-color: var(--accent-orange);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.2);
+        }
+
+        /* Divider between primary actions and social links */
+        .contact-divider {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin: 1.5rem 0 0.5rem;
+            color: var(--text-secondary);
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .contact-divider::before,
+        .contact-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(212, 175, 55, 0.2);
         }
 
         /* Footer */
@@ -666,6 +740,11 @@
 
             .contact-links {
                 flex-direction: column;
+                align-items: stretch;
+            }
+
+            .contact-link {
+                justify-content: center;
             }
 
             .clients-grid {
@@ -781,87 +860,87 @@
             <p class="achievement-detail">"Cocaine Chaos" | 50 Hour Filmmaking Challenge</p>
         </div>
         
-       <div class="projects-grid">
+        <div class="projects-grid">
 
-    <!-- Waiting -->
-    <a href="https://www.youtube.com/watch?v=LC77UZvoj2E&t=3s" target="_blank">
-        <div class="project-card">
-            <img src="Waiting - Short Film  Made During IFP's 50 Hours Filmmaking Challenge  Team Filmineers.jpg" alt="Waiting - IFP Challenge">
-            <div class="project-overlay">
-                <h3 class="project-title">Waiting</h3>
-                <p class="project-description">
-                    IFP 50 Hour Challenge | Cinematographer | Shot entirely on iPhone 15 under extreme time pressure
-                </p>
-            </div>
+            <!-- Waiting -->
+            <a href="https://www.youtube.com/watch?v=LC77UZvoj2E&t=3s" target="_blank">
+                <div class="project-card">
+                    <img src="Waiting - Short Film  Made During IFP's 50 Hours Filmmaking Challenge  Team Filmineers.jpg" alt="Waiting - IFP Challenge">
+                    <div class="project-overlay">
+                        <h3 class="project-title">Waiting</h3>
+                        <p class="project-description">
+                            IFP 50 Hour Challenge | Cinematographer | Shot entirely on iPhone 15 under extreme time pressure
+                        </p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Cocaine Chaos -->
+            <a href="https://www.youtube.com/watch?v=kGDnbrvTLKc" target="_blank">
+                <div class="project-card">
+                    <img src="Cocaine Chaos  Bronze Film Of The Year  Mobile Category  50 Hour Filmmaking Challenge.jpg" alt="Cocaine Chaos">
+                    <div class="project-overlay">
+                        <h3 class="project-title">Cocaine Chaos</h3>
+                        <p class="project-description">
+                            🥉 Bronze Film of the Year - Mobile Category | IFP Season 13 | Lead Actor
+                        </p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Love Stop -->
+            <a href="https://www.youtube.com/watch?v=JLohfz__v7Y" target="_blank">
+                <div class="project-card">
+                    <img src="Love Stop.  Short Film  Utsov Mohanty,Shaunak Chalsey,Ahana Chanda,Satyam Swain,Manan Pandey  KFS.jpg" alt="Love Stop">
+                    <div class="project-overlay">
+                        <h3 class="project-title">Love Stop.</h3>
+                        <p class="project-description">
+                            KFS Production | Male Lead Actor | Narrative short film with full character arc
+                        </p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Commercial Food Photography -->
+            <a href="https://www.instagram.com/p/DPIxBKqEsiC/?img_index=1" target="_blank">
+                <div class="project-card">
+                    <img src="fortuneparkbhubaneswar ( PHOTOS - 1.jpg" alt="Fortune Park Food">
+                    <div class="project-overlay">
+                        <h3 class="project-title">Commercial Food Photography</h3>
+                        <p class="project-description">
+                            Fortune Park Sishmo | Professional food and hospitality content creation
+                        </p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Bridal Portfolio -->
+            <a href="https://www.instagram.com/sc_.clicks/reel/DOEXL-fE2wl/" target="_blank">
+                <div class="project-card">
+                    <img src="bridal makeover - EDIT.jpg" alt="Bridal Makeover">
+                    <div class="project-overlay">
+                        <h3 class="project-title">Bridal Portfolio</h3>
+                        <p class="project-description">
+                            Beauty & fashion videography | Capturing elegance and tradition
+                        </p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Brand Collaborations -->
+            <a href="https://www.instagram.com/p/DQWVftnip3x/" target="_blank">
+                <div class="project-card">
+                    <img src="lyfehotelsandresorts.jpg" alt="Brand Work">
+                    <div class="project-overlay">
+                        <h3 class="project-title">Brand Collaborations</h3>
+                        <p class="project-description">
+                            Lakme Salon, Embellish Salon, Lyfe Hotels | Commercial content for beauty & hospitality brands
+                        </p>
+                    </div>
+                </div>
+            </a>
+
         </div>
-    </a>
-
-    <!-- Cocaine Chaos -->
-    <a href="https://www.youtube.com/watch?v=kGDnbrvTLKc" target="_blank">
-        <div class="project-card">
-            <img src="Cocaine Chaos  Bronze Film Of The Year  Mobile Category  50 Hour Filmmaking Challenge.jpg" alt="Cocaine Chaos">
-            <div class="project-overlay">
-                <h3 class="project-title">Cocaine Chaos</h3>
-                <p class="project-description">
-                    🥉 Bronze Film of the Year - Mobile Category | IFP Season 13 | Lead Actor
-                </p>
-            </div>
-        </div>
-    </a>
-
-    <!-- Love Stop -->
-    <a href="https://www.youtube.com/watch?v=JLohfz__v7Y" target="_blank">
-        <div class="project-card">
-            <img src="Love Stop.  Short Film  Utsov Mohanty,Shaunak Chalsey,Ahana Chanda,Satyam Swain,Manan Pandey  KFS.jpg" alt="Love Stop">
-            <div class="project-overlay">
-                <h3 class="project-title">Love Stop.</h3>
-                <p class="project-description">
-                    KFS Production | Male Lead Actor | Narrative short film with full character arc
-                </p>
-            </div>
-        </div>
-    </a>
-
-    <!-- Commercial Food Photography -->
-    <a href="https://www.instagram.com/p/DPIxBKqEsiC/?img_index=1" target="_blank">
-        <div class="project-card">
-            <img src="fortuneparkbhubaneswar ( PHOTOS - 1.jpg" alt="Fortune Park Food">
-            <div class="project-overlay">
-                <h3 class="project-title">Commercial Food Photography</h3>
-                <p class="project-description">
-                    Fortune Park Sishmo | Professional food and hospitality content creation
-                </p>
-            </div>
-        </div>
-    </a>
-
-    <!-- Bridal Portfolio -->
-    <a href="https://www.instagram.com/sc_.clicks/reel/DOEXL-fE2wl/" target="_blank">
-        <div class="project-card">
-            <img src="bridal makeover - EDIT.jpg" alt="Bridal Makeover">
-            <div class="project-overlay">
-                <h3 class="project-title">Bridal Portfolio</h3>
-                <p class="project-description">
-                    Beauty & fashion videography | Capturing elegance and tradition
-                </p>
-            </div>
-        </div>
-    </a>
-
-    <!-- Brand Collaborations -->
-    <a href="https://www.instagram.com/p/DQWVftnip3x/" target="_blank">
-        <div class="project-card">
-            <img src="lyfehotelsandresorts.jpg" alt="Brand Work">
-            <div class="project-overlay">
-                <h3 class="project-title">Brand Collaborations</h3>
-                <p class="project-description">
-                    Lakme Salon, Embellish Salon, Lyfe Hotels | Commercial content for beauty & hospitality brands
-                </p>
-            </div>
-        </div>
-    </a>
-
-</div>
     </section>
 
     <!-- Testimonials -->
@@ -886,28 +965,65 @@
         </div>
     </section>
 
-    <!-- Contact Section -->
+    <!-- =============================================
+         CONTACT SECTION — UPDATED WITH OPTIONS 1 & 3
+    ============================================= -->
     <section id="contact" class="contact">
         <h2 class="section-title">Let's Create Together</h2>
         <div class="contact-content">
             <p class="contact-text">Ready to start your next production? Whether it's a commercial campaign or a personal documentary, let's create something unforgettable together.</p>
+
             <div class="contact-links">
-                <a href="mailto:thecinequill@gmail.com" class="contact-link">
+
+                <!-- OPTION 1: Email opens Gmail with pre-filled subject & message -->
+                <a 
+                    href="mailto:Shaunakbchalsey@gmail.com?subject=Brand%20Collaboration%20Enquiry%20%E2%80%94%20The%20Cinequill&body=Hi%20Shaunak%2C%0A%0AI%20came%20across%20your%20work%20and%20I%27d%20love%20to%20discuss%20a%20potential%20collaboration.%0A%0AProject%20Details%3A%0A%E2%80%A2%20Type%20of%20project%3A%20%5BShort%20Film%20%2F%20Commercial%20%2F%20Brand%20Reel%20%2F%20Event%5D%0A%E2%80%A2%20Timeline%3A%20%5BYour%20timeline%5D%0A%E2%80%A2%20Budget%3A%20%5BYour%20budget%5D%0A%0ALooking%20forward%20to%20hearing%20from%20you!%0A%0AWarm%20regards%2C%0A%5BYour%20Name%5D" 
+                    class="contact-link primary-cta"
+                >
                     <span>📧</span>
                     <span>Email Me</span>
                 </a>
+
+                <!-- OPTION 3a: WhatsApp direct message -->
+                <a 
+                    href="https://wa.me/918767224980?text=Hi%20Shaunak%2C%20I%20came%20across%20your%20work%20on%20The%20Cinequill%20and%20I%27d%20love%20to%20collaborate%20on%20a%20project!" 
+                    target="_blank" 
+                    class="contact-link whatsapp-btn"
+                >
+                    <span>💬</span>
+                    <span>WhatsApp</span>
+                </a>
+
+                <!-- OPTION 3b: Direct phone call -->
+                <a 
+                    href="tel:+918767224980" 
+                    class="contact-link call-btn"
+                >
+                    <span>📞</span>
+                    <span>Call Me</span>
+                </a>
+
+                <!-- Divider -->
+                <div class="contact-divider">Also find me on</div>
+
+                <!-- LinkedIn -->
                 <a href="https://www.linkedin.com/in/shaunakchalsey/" target="_blank" class="contact-link">
                     <span>💼</span>
                     <span>LinkedIn</span>
                 </a>
+
+                <!-- YouTube -->
                 <a href="https://www.youtube.com/@Thecinequill" target="_blank" class="contact-link">
                     <span>▶️</span>
                     <span>YouTube</span>
                 </a>
+
+                <!-- Instagram -->
                 <a href="https://www.instagram.com/thecinequill/" target="_blank" class="contact-link">
                     <span>📷</span>
                     <span>Instagram</span>
                 </a>
+
             </div>
         </div>
     </section>
@@ -917,7 +1033,7 @@
         <p class="footer-text">© 2025 The Cinequill | Shaunak Chalsey. All rights reserved. | Crafted with passion for visual storytelling.</p>
     </footer>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    <script>
         // Smooth scroll with offset for fixed nav
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -948,14 +1064,21 @@
         }, observerOptions);
 
         // Observe all project cards, testimonials, and skills
-        document.querySelectorAll('.project-card, .testimonial-card, .skill-item, .client-logo').forEach(el => {
+        document.querySelectorAll('.project-card, .testimonial-card, .skill-item, .client-logo, .contact-link').forEach(el => {
             el.style.opacity = '0';
             el.style.transform = 'translateY(30px)';
-            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease, border-color 0.3s, background 0.3s, color 0.3s, box-shadow 0.3s';
             observer.observe(el);
         });
 
         // Parallax effect for hero
         window.addEventListener('scroll', () => {
             const scrolled = window.pageYOffset;
-            const hero = document.querySelector('.hero-bg'
+            const heroBg = document.querySelector('.hero-bg');
+            if (heroBg) {
+                heroBg.style.transform = `translateY(${scrolled * 0.3}px)`;
+            }
+        });
+    </script>
+</body>
+</html>
