@@ -439,6 +439,36 @@
         .brief-submit::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:rgba(212,168,67,0.92);transition:left 0.4s cubic-bezier(.77,0,.18,1);z-index:0}
         .brief-submit span{position:relative;z-index:1}
         .brief-submit:hover{color:var(--black)}.brief-submit:hover::before{left:0}
+        /* ── BRIEF SEND OPTIONS ── */
+        .brief-send-options{margin-top:0.6rem}
+        .brief-send-label{font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:2px;text-transform:uppercase;color:rgba(122,117,112,0.7);margin-bottom:0.7rem}
+        .brief-send-row{display:flex;gap:0.75rem;flex-wrap:wrap}
+        .brief-send-btn{
+            flex:1;min-width:90px;
+            display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+            padding:0.85rem 0.5rem;
+            background:rgba(255,255,255,0.02);
+            border-radius:3px;cursor:pointer;text-decoration:none;
+            position:relative;overflow:hidden;
+            transition:transform 0.35s cubic-bezier(0.23,1,0.32,1),border-color 0.3s,background 0.3s;
+            will-change:transform;
+        }
+        .brief-send-btn::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;transform:scaleX(0);transition:transform 0.4s cubic-bezier(0.77,0,0.18,1)}
+        .brief-send-btn:hover::before{transform:scaleX(1)}
+        .brief-send-btn:hover{background:rgba(255,255,255,0.04)}
+        .wa-btn{border:0.5px solid rgba(37,211,102,0.25);color:rgba(37,211,102,0.8)}
+        .wa-btn::before{background:linear-gradient(90deg,#25D366,#128C7E)}
+        .wa-btn:hover{border-color:rgba(37,211,102,0.6)}
+        .email-btn{border:0.5px solid rgba(212,168,67,0.3);color:rgba(212,168,67,0.85)}
+        .email-btn::before{background:linear-gradient(90deg,var(--gold),var(--gold-bright))}
+        .email-btn:hover{border-color:rgba(212,168,67,0.6)}
+        .call-btn{border:0.5px solid rgba(201,74,26,0.3);color:rgba(201,74,26,0.85)}
+        .call-btn::before{background:linear-gradient(90deg,var(--ember),#8b1a1a)}
+        .call-btn:hover{border-color:rgba(201,74,26,0.6)}
+        .bsb-icon{font-size:1.3rem;line-height:1;transition:transform 0.35s cubic-bezier(0.23,1,0.32,1)}
+        .brief-send-btn:hover .bsb-icon{transform:scale(1.15) rotate(-5deg)}
+        .bsb-text{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:1.5px;text-transform:uppercase}
+        .bsb-sub{font-family:'Cormorant Garamond',serif;font-size:0.72rem;font-style:italic;color:var(--grey)}
         .brief-success{display:none;text-align:center;padding:3rem 1.6rem}
         .brief-success.visible{display:block}
         .brief-success-icon{font-size:2.5rem;margin-bottom:1rem}
@@ -756,7 +786,26 @@
                     </div>
                 </div>
                 <div class="brief-field"><label>Vision / notes</label><textarea id="projectVision" placeholder="Tell me about your project — mood, references, story..."></textarea></div>
-                <button class="brief-submit mag-el" data-strength="20" onclick="submitBrief()"><span>Send Brief →</span></button>
+                <div class="brief-send-options">
+                    <div class="brief-send-label">Send via</div>
+                    <div class="brief-send-row">
+                        <button class="brief-send-btn wa-btn mag-el" data-strength="15" onclick="submitBrief('wa')">
+                            <span class="bsb-icon">💬</span>
+                            <span class="bsb-text">WhatsApp</span>
+                            <span class="bsb-sub">Quick reply</span>
+                        </button>
+                        <button class="brief-send-btn email-btn mag-el" data-strength="15" onclick="submitBrief('email')">
+                            <span class="bsb-icon">📧</span>
+                            <span class="bsb-text">Email</span>
+                            <span class="bsb-sub">Detailed brief</span>
+                        </button>
+                        <a href="tel:+918767224980" class="brief-send-btn call-btn mag-el" data-strength="15">
+                            <span class="bsb-icon">📞</span>
+                            <span class="bsb-text">Call Me</span>
+                            <span class="bsb-sub">+91 87672 24980</span>
+                        </a>
+                    </div>
+                </div>
             </div>
             <div class="brief-success" id="briefSuccess">
                 <div class="brief-success-icon">🎬</div>
@@ -1208,14 +1257,30 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click'
 // ══ CONTACT ══
 let takeCount=1;
 function toggleChip(el){el.classList.toggle('active');takeCount++;document.getElementById('briefSceneNo').textContent=`SCENE 001 — TAKE ${String(takeCount).padStart(2,'0')}`}
-function submitBrief(){
-    const name=document.getElementById('clientName').value.trim(),contact=document.getElementById('clientContact').value.trim(),chips=document.querySelectorAll('.scene-chip.active');
-    if(!name||!contact){if(!name)document.getElementById('clientName').style.borderColor='rgba(201,74,26,0.6)';if(!contact)document.getElementById('clientContact').style.borderColor='rgba(201,74,26,0.6)';return}
-    if(!chips.length){document.querySelector('.type-chips').style.outline='1px solid rgba(201,74,26,0.4)';return}
-    const sceneType=Array.from(chips).map(c=>c.textContent).join(', '),shootDate=document.getElementById('shootDate').value||'TBD',budget=document.getElementById('budgetRange').value||'Not specified',vision=document.getElementById('projectVision').value||'No notes provided.';
-    const subject=encodeURIComponent(`Production Brief — ${sceneType} | The Cinequill`),body=encodeURIComponent(`Hi Shaunak,\n\nI'd love to collaborate.\n\nClient: ${name}\nContact: ${contact}\nScene Type: ${sceneType}\nShoot Date: ${shootDate}\nBudget: ${budget}\n\nVision:\n${vision}\n\n${name}`);
-    window.location.href=`mailto:Shaunakbchalsey@gmail.com?subject=${subject}&body=${body}`;
-    document.getElementById('briefFormBody').style.display='none';document.getElementById('briefSuccess').classList.add('visible');
+function submitBrief(via){
+    const name=document.getElementById('clientName').value.trim();
+    const contact=document.getElementById('clientContact').value.trim();
+    const chips=document.querySelectorAll('.scene-chip.active');
+    if(!name||!contact){
+        if(!name)document.getElementById('clientName').style.borderColor='rgba(201,74,26,0.6)';
+        if(!contact)document.getElementById('clientContact').style.borderColor='rgba(201,74,26,0.6)';
+        return;
+    }
+    if(!chips.length){document.querySelector('.type-chips').style.outline='1px solid rgba(201,74,26,0.4)';return;}
+    const sceneType=Array.from(chips).map(c=>c.textContent).join(', ');
+    const shootDate=document.getElementById('shootDate').value||'TBD';
+    const budget=document.getElementById('budgetRange').value||'Not specified';
+    const vision=document.getElementById('projectVision').value||'No notes provided.';
+    const msgText=`Hi Shaunak! I came across The Cinequill and I'd love to collaborate.%0A%0A*Production Brief*%0AClient: ${encodeURIComponent(name)}%0AContact: ${encodeURIComponent(contact)}%0AScene Type: ${encodeURIComponent(sceneType)}%0AShoot Date: ${encodeURIComponent(shootDate)}%0ABudget: ${encodeURIComponent(budget)}%0A%0AVision: ${encodeURIComponent(vision)}`;
+    if(via==='wa'){
+        window.open('https://wa.me/918767224980?text='+msgText,'_blank');
+    } else {
+        const subject=encodeURIComponent('Production Brief — '+sceneType+' | The Cinequill');
+        const body=encodeURIComponent('Hi Shaunak,\n\nI\'d love to collaborate.\n\nClient: '+name+'\nContact: '+contact+'\nScene Type: '+sceneType+'\nShoot Date: '+shootDate+'\nBudget: '+budget+'\n\nVision:\n'+vision+'\n\n'+name);
+        window.location.href='mailto:Shaunakbchalsey@gmail.com?subject='+subject+'&body='+body;
+    }
+    document.getElementById('briefFormBody').style.display='none';
+    document.getElementById('briefSuccess').classList.add('visible');
 }
 
 // ══ INIT ══
