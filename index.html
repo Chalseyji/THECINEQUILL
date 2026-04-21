@@ -775,7 +775,7 @@
 
 <!-- ══════════════════════════════════════════
      MARSHALL — AI CHAT WIDGET
-     Powered by Claude claude-sonnet-4-20250514
+     Powered by Gemini via Cloudflare Worker proxy
 ══════════════════════════════════════════ -->
 <div id="mw-flash"></div>
 
@@ -983,17 +983,14 @@ function submitBrief(via){
 // ══ INIT ══
 window.addEventListener('load',initMagnetic);
 
-
 // ════════════════════════════════════════════════════════
-//  MARSHALL — AI CHAT WIDGET (Gemini-powered, free tier)
+//  MARSHALL — AI CHAT WIDGET
+//  Uses Cloudflare Worker proxy — API key is server-side only
 // ════════════════════════════════════════════════════════
 (function() {
 
-  // ── PASTE YOUR GEMINI API KEY HERE ──
-  const GEMINI_API_KEY = 'AIzaSyATfuvj7R7oCf1JBgy_bT7EHcWpnlriSdE';
-  // ────────────────────────────────────
-
-  const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
+  // ── Cloudflare Worker URL (key is hidden server-side) ──
+  const WORKER_URL = 'https://holy-dew-58d5.chalseyshaunak.workers.dev';
 
   const SYSTEM = `You are Marshall, a small animated cameraman character and the AI assistant for Shaunak Chalsey's portfolio website "The Cinequill". Be warm, confident, witty — with the occasional brief cinematic quip. Keep all replies SHORT (2-4 sentences max). This is a chat widget, not an essay.
 
@@ -1049,7 +1046,6 @@ RULES:
   const notif  = document.getElementById('mw-notif');
   const svg    = document.getElementById('mw-svg');
 
-  // ── TOGGLE ──
   window.mwToggle = function() {
     open = !open;
     win.classList.toggle('open', open);
@@ -1062,13 +1058,11 @@ RULES:
     if (open) setTimeout(() => input.focus(), 300);
   };
 
-  // ── CHIP ──
   window.mwChip = function(text) {
     input.value = text;
     mwSend();
   };
 
-  // ── SEND ──
   window.mwSend = async function() {
     const text = input.value.trim();
     if (!text || busy) return;
@@ -1076,22 +1070,25 @@ RULES:
 
     mwAddUser(text);
     history.push({ role: 'user', parts: [{ text }] });
+    if (history.length > 12) history = history.slice(-12);
 
     mwShoot();
     busy = true;
-    setTimeout(() => mwTyping(true), 320);
+    mwTyping(true);
     mwAnim('think');
 
     try {
-      const res = await fetch(GEMINI_URL, {
+      const res = await fetch(WORKER_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           system_instruction: { parts: [{ text: SYSTEM }] },
-          contents: history.slice(-12),
+          contents: history,
           generationConfig: { maxOutputTokens: 300, temperature: 0.75 }
         })
       });
+
+      if (!res.ok) throw new Error(`Status ${res.status}`);
 
       const data = await res.json();
       mwTyping(false);
@@ -1099,7 +1096,7 @@ RULES:
       busy = false;
 
       const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text
-        || "Cut! Something went wrong on my end. Try again?";
+        || "Cut! I didn't catch that. Try again?";
 
       history.push({ role: 'model', parts: [{ text: reply }] });
       mwAddAI(reply);
@@ -1111,16 +1108,12 @@ RULES:
       mwAnim('idle');
       busy = false;
       mwAddAI("My camera jammed! Check your connection and try again.");
+      console.error('Marshall error:', e);
     }
   };
 
-  // ── RENDER ──
-  function mwAddAI(text) {
-    mwRender('ai', text);
-  }
-  function mwAddUser(text) {
-    mwRender('user', text);
-  }
+  function mwAddAI(text) { mwRender('ai', text); }
+  function mwAddUser(text) { mwRender('user', text); }
 
   function mwRender(role, text) {
     const wrap = document.createElement('div');
@@ -1166,25 +1159,23 @@ RULES:
     </svg>`;
   }
 
-  // ── TYPING ──
+  let typingEl = null;
   function mwTyping(show) {
-    let el = document.getElementById('mw-typing');
-    if (!el) {
-      el = document.createElement('div');
-      el.id = 'mw-typing';
-      el.innerHTML = `<div class="mw-mav">${avatarAI()}</div>
+    if (!typingEl) {
+      typingEl = document.createElement('div');
+      typingEl.id = 'mw-typing';
+      typingEl.innerHTML = `<div class="mw-mav">${avatarAI()}</div>
         <div style="background:#120e0c;border:0.5px solid rgba(212,168,67,0.12);border-radius:3px 11px 11px 11px;padding:10px 14px;display:flex;gap:5px;align-items:center;">
           <div class="mw-tdot"></div><div class="mw-tdot"></div><div class="mw-tdot"></div>
           <span class="mw-tlabel">Developing the shot…</span>
         </div>`;
-      el.style.cssText = 'display:flex;gap:7px;align-items:flex-start;';
-      msgs.appendChild(el);
+      typingEl.style.cssText = 'display:flex;gap:7px;align-items:flex-start;';
+      msgs.appendChild(typingEl);
     }
-    el.style.display = show ? 'flex' : 'none';
-    if (show) msgs.scrollTop = msgs.scrollHeight;
+    typingEl.style.display = show ? 'flex' : 'none';
+    if (show) { msgs.appendChild(typingEl); msgs.scrollTop = msgs.scrollHeight; }
   }
 
-  // ── ANIMATIONS ──
   function mwShoot() {
     flash.classList.add('pop');
     setTimeout(() => flash.classList.remove('pop'), 130);
@@ -1192,16 +1183,12 @@ RULES:
     setTimeout(() => svg.className = 'mw-idle', 250);
   }
 
-  function mwAnim(state) {
-    svg.className = 'mw-' + state;
-  }
+  function mwAnim(state) { svg.className = 'mw-' + state; }
 
-  // ── ENTER KEY ──
   input.addEventListener('keydown', e => {
     if (e.key === 'Enter') { e.preventDefault(); mwSend(); }
   });
 
-  // ── NOTIF DOT after 4s ──
   notifTimer = setTimeout(() => {
     if (!open) notif.style.display = 'block';
   }, 4000);
